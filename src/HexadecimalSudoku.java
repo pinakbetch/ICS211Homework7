@@ -33,9 +33,21 @@ public class HexadecimalSudoku {
    * @return an ArrayList of the valid values.
    */
   private static ArrayList<Integer> legalValues(int[][] sudoku, int row, int column) {
-    // TODO: Implement this method. You may want to look at the checkSudoku method
-    // to see how it finds conflicts.
-    return null;
+    
+    if(sudoku[row][column] != -1){
+      return null;
+    }else{
+    
+    ArrayList<Integer> legals = new ArrayList<Integer>();
+    
+    for(int i = 0; i < 16; i ++){
+      sudoku[row][column] = i;
+      if(checkSudoku(sudoku, true)){
+        legals.add(i);
+      }
+    }
+    return legals;
+    }
   }
 
 
