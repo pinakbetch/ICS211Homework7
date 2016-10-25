@@ -1,5 +1,4 @@
 
-
 import java.util.ArrayList;
 
 /**
@@ -15,14 +14,32 @@ public class HexadecimalSudoku {
    * Find an assignment of values to sudoku cells that makes the sudoku valid.
    * 
    * @param the sudoku to be solved
-   * @return whether a solution was found if a solution was found, the sudoku is
-   *         filled in with the solution if no solution was found, restores the
-   *         sudoku to its original value
+   * @return whether a solution was found if a solution was found, the sudoku is filled in with the solution if no
+   * solution was found, restores the sudoku to its original value
    */
   public static boolean solveSudoku(int[][] sudoku) {
-    // TODO: Implement this method recursively. You may use a recursive helper method.
-    throw new UnsupportedOperationException("solveSudoku not implemented.");
+    int[] emptySpot = new int[2];
+    int[][] tempSudoku;
+    ArrayList<Integer> possibilities;
+
+    emptySpot = findEmpty(sudoku);
+
+    if (emptySpot[0] == -1 || emptySpot[1] == -1) {
+      return checkSudoku(sudoku, false);
+    }
+
+    possibilities = legalValues(sudoku, emptySpot[0], emptySpot[1]);
+
+    for (int i = 0; i < possibilities.size(); i++) {
+      tempSudoku = sudoku;
+      tempSudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
+      if (solveSudoku(tempSudoku)) {
+        return true;
+      }
+    }
+    return false;
   }
+
 
   /**
    * Find the legal values for the given sudoku and cell.
@@ -33,27 +50,27 @@ public class HexadecimalSudoku {
    * @return an ArrayList of the valid values.
    */
   private static ArrayList<Integer> legalValues(int[][] sudoku, int row, int column) {
-    
-    if(sudoku[row][column] != -1){
+
+    if (sudoku[row][column] != -1) {
       return null;
-    }else{
-    
-    ArrayList<Integer> legals = new ArrayList<Integer>();
-    
-    for(int i = 0; i < 16; i ++){
-      sudoku[row][column] = i;
-      if(checkSudoku(sudoku, true)){
-        legals.add(i);
-      }
     }
-    return legals;
+    else {
+
+      ArrayList<Integer> legals = new ArrayList<Integer>();
+
+      for (int i = 0; i < 16; i++) {
+        sudoku[row][column] = i;
+        if (checkSudoku(sudoku, false)) {
+          legals.add(i);
+        }
+      }
+      return legals;
     }
   }
 
 
   /**
-   * checks that the sudoku rules hold in this sudoku puzzle. cells that contain
-   * 0 are not checked.
+   * checks that the sudoku rules hold in this sudoku puzzle. cells that contain 0 are not checked.
    * 
    * @param the sudoku to be checked
    * @param whether to print the error found, if any
@@ -83,7 +100,8 @@ public class HexadecimalSudoku {
         }
         if ((cell < 0) || (cell > 16)) {
           if (printErrors) {
-            System.out.println("sudoku row " + i + " column " + j + " has illegal value " + String.format("%02X", cell));
+            System.out
+                .println("sudoku row " + i + " column " + j + " has illegal value " + String.format("%02X", cell));
           }
           return false;
         }
@@ -91,7 +109,8 @@ public class HexadecimalSudoku {
         for (int m = 0; m < sudoku.length; m++) {
           if ((j != m) && (cell == sudoku[i][m])) {
             if (printErrors) {
-              System.out.println("sudoku row " + i + " has " + String.format("%X", cell) + " at both positions " + j + " and " + m);
+              System.out.println(
+                  "sudoku row " + i + " has " + String.format("%X", cell) + " at both positions " + j + " and " + m);
             }
             return false;
           }
@@ -100,7 +119,8 @@ public class HexadecimalSudoku {
         for (int k = 0; k < sudoku.length; k++) {
           if ((i != k) && (cell == sudoku[k][j])) {
             if (printErrors) {
-              System.out.println("sudoku column " + j + " has " + String.format("%X", cell) + " at both positions " + i + " and " + k);
+              System.out.println(
+                  "sudoku column " + j + " has " + String.format("%X", cell) + " at both positions " + i + " and " + k);
             }
             return false;
           }
@@ -125,6 +145,24 @@ public class HexadecimalSudoku {
   }
 
 
+  private static int[] findEmpty(int[][] sudoku) {
+    int[] location = new int[2];
+    location[0] = -1;
+    location[1] = -1;
+
+    for (int i = 0; i < 16; i++) {
+      for (int j = 0; j < 16; j++) {
+        if (sudoku[i][j] == -1) {
+          location[0] = i;
+          location[1] = j;
+          return location;
+        }
+      }
+    }
+    return location;
+  }
+
+
   /**
    * Converts the sudoku to a printable string
    * 
@@ -133,7 +171,7 @@ public class HexadecimalSudoku {
    * @return the printable version of the sudoku
    */
   public static String toString(int[][] sudoku, boolean debug) {
-    if ((!debug) || (checkSudoku(sudoku, true))) {
+    if ((!debug) || (checkSudoku(sudoku, false))) {
       String result = "";
       for (int i = 0; i < sudoku.length; i++) {
         if (i % 4 == 0) {
@@ -158,4 +196,3 @@ public class HexadecimalSudoku {
     return "illegal sudoku";
   }
 }
-
