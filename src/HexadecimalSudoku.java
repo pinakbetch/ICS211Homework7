@@ -20,34 +20,22 @@ public class HexadecimalSudoku {
   public static boolean solveSudoku(int[][] sudoku) {
     toString(sudoku, false);
     int[] emptySpot = new int[2];
-    int[][] tempSudoku;
     ArrayList<Integer> possibilities;
 
     emptySpot = findEmpty(sudoku);
-    //
-    //
-    // System.out.println(emptySpot[0] + " " + emptySpot[1]);
-    //
-    //
-    if (emptySpot[0] == -1 && emptySpot[1] == -1) {
+    if (emptySpot[0] == -1 || emptySpot[1] == -1) {
       return checkSudoku(sudoku, false);
     }
 
     possibilities = legalValues(sudoku, emptySpot[0], emptySpot[1]);
 
     for (int i = 0; i < possibilities.size(); i++) {
-      tempSudoku = sudoku;
-      tempSudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
-      //
-      //
-      // System.out.println(tempSudoku[emptySpot[0]][emptySpot[1]]);
-      //
-      //
-      if (solveSudoku(tempSudoku)) {
+      sudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
+      if (solveSudoku(sudoku)) {
         return true;
       }
       else {
-        tempSudoku[emptySpot[0]][emptySpot[1]] = -1;
+        sudoku[emptySpot[0]][emptySpot[1]] = -1;
       }
     }
     return false;
@@ -68,27 +56,31 @@ public class HexadecimalSudoku {
     }
     else {
       ArrayList<Integer> aList = new ArrayList<Integer>();
-      ArrayList<Integer> illegals = new ArrayList<Integer>();
-      
       for(int i = 0; i < 16; i ++){
         aList.add(i);
-        illegals.add(sudoku[i][column]);
-        illegals.add(sudoku[row][i]);
       }
       
-      int boxRow = (row/4)*4;
-      int boxRowStop = (row/4)*4 +4;
-      int boxColumn = (column/4)*4;
-      int boxColumnStop = (column/4)*4 +4;
-      for(int i = boxRow; i < boxRowStop; i ++){
-        for(int j = boxColumn; j < boxColumnStop; j++){
-          illegals.add(sudoku[i][j]);
+      for(int i = 15; i > -1; i --){
+        if(aList.contains(sudoku[i][column])){
+          aList.remove(aList.indexOf(sudoku[i][column]));
+        }
+        if(aList.contains(sudoku[row][i])){
+          aList.remove(aList.indexOf(sudoku[row][i]));
         }
       }
-      for(int i = 15; i < -1; i --){
-        if(illegals.contains(i)){
-          aList.remove(i);
+      
+      int rowStart = (row/4)*4;
+      int rowEnd = rowStart +4;
+      int columnStart = (column/4)*4;
+      int columnEnd = columnStart + 4;
+      
+      if(aList.size() > 0){
+      for(Integer i = rowStart; i < rowEnd; i ++){
+        for(Integer j = columnStart; j < columnEnd; j ++)
+        if(aList.contains(sudoku[i][j])){
+          aList.remove(aList.indexOf(sudoku[i][j]));
         }
+      }
       }
       return aList;
     }
