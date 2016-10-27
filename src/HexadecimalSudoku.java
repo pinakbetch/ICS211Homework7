@@ -18,13 +18,18 @@ public class HexadecimalSudoku {
    * solution was found, restores the sudoku to its original value
    */
   public static boolean solveSudoku(int[][] sudoku) {
+    toString(sudoku, false);
     int[] emptySpot = new int[2];
     int[][] tempSudoku;
     ArrayList<Integer> possibilities;
 
     emptySpot = findEmpty(sudoku);
-
-    if (emptySpot[0] == -1 || emptySpot[1] == -1) {
+    //
+    //
+    // System.out.println(emptySpot[0] + " " + emptySpot[1]);
+    //
+    //
+    if (emptySpot[0] == -1 && emptySpot[1] == -1) {
       return checkSudoku(sudoku, false);
     }
 
@@ -33,8 +38,16 @@ public class HexadecimalSudoku {
     for (int i = 0; i < possibilities.size(); i++) {
       tempSudoku = sudoku;
       tempSudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
+      //
+      //
+      // System.out.println(tempSudoku[emptySpot[0]][emptySpot[1]]);
+      //
+      //
       if (solveSudoku(tempSudoku)) {
         return true;
+      }
+      else {
+        tempSudoku[emptySpot[0]][emptySpot[1]] = -1;
       }
     }
     return false;
@@ -64,6 +77,7 @@ public class HexadecimalSudoku {
           legals.add(i);
         }
       }
+      sudoku[row][column] = -1;
       return legals;
     }
   }
@@ -145,6 +159,11 @@ public class HexadecimalSudoku {
   }
 
 
+  /**
+   * 
+   * @param sudoku: a 16 by 16 2d array of ints from -1 t0 15
+   * @return: a length two array of ints containing the row number and column number of the first encountered '-1' value
+   */
   private static int[] findEmpty(int[][] sudoku) {
     int[] location = new int[2];
     location[0] = -1;
