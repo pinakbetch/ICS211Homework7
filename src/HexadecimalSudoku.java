@@ -29,25 +29,24 @@ public class HexadecimalSudoku {
     // System.out.println(emptySpot[0] + " " + emptySpot[1]);
     //
     //
-    if (emptySpot[0] == -1 && emptySpot[1] == -1) {
+    if (emptySpot[0] == -1 || emptySpot[1] == -1) {
       return checkSudoku(sudoku, false);
     }
 
     possibilities = legalValues(sudoku, emptySpot[0], emptySpot[1]);
 
     for (int i = 0; i < possibilities.size(); i++) {
-      tempSudoku = sudoku;
-      tempSudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
+      sudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
       //
       //
       // System.out.println(tempSudoku[emptySpot[0]][emptySpot[1]]);
       //
       //
-      if (solveSudoku(tempSudoku)) {
+      if (solveSudoku(sudoku)) {
         return true;
       }
       else {
-        tempSudoku[emptySpot[0]][emptySpot[1]] = -1;
+        sudoku[emptySpot[0]][emptySpot[1]] = -1;
       }
     }
     return false;
