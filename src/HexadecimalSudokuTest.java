@@ -1,5 +1,4 @@
 
-
 /**
  * Test a HexadecimalSudoku solver
  * 
@@ -10,8 +9,7 @@
 public class HexadecimalSudokuTest {
 
   /**
-   * Checks the sudoku returning true if all cells are filled. Does not check
-   * validity.
+   * Checks the sudoku returning true if all cells are filled. Does not check validity.
    * 
    * @return true if all cells are filled, false otherwise.
    */
@@ -28,13 +26,11 @@ public class HexadecimalSudokuTest {
 
 
   /**
-   * Test whether two sudoku are equal. If not, return a new sudoku that is
-   * blank where the two sudoku differ.
+   * Test whether two sudoku are equal. If not, return a new sudoku that is blank where the two sudoku differ.
    * 
    * @param the sudoku to be checked
    * @param the solution checked
-   * @return null if the two match, and otherwise a sudoku with 0 in every cell
-   *         that differs.
+   * @return null if the two match, and otherwise a sudoku with 0 in every cell that differs.
    */
   private static int[][] sameSudoku(int[][] sudoku, int[][] solution) {
     int[][] result = new int[16][16];
@@ -60,8 +56,7 @@ public class HexadecimalSudokuTest {
 
 
   /**
-   * Try to solve a sudoku. If a solution is provided, also check against the
-   * solution. Print the results.
+   * Try to solve a sudoku. If a solution is provided, also check against the solution. Print the results.
    * 
    * @param the name of this sudoku
    * @param the sudoku to be solved
@@ -198,7 +193,7 @@ public class HexadecimalSudokuTest {
         { 5, -1, 3, -1, -1, 10, -1, -1, -1, 8, -1, -1, -1, -1, -1, 15 },
         { 1, -1, 0, 7, 6, 3, -1, 4, 9, -1, 14, -1, -1, -1, -1, -1 },
         { 6, -1, 15, -1, 9, -1, -1, 1, 13, -1, 5, -1, -1, 14, -1, -1 } };
-    
+
     int[][] triv3 = { { 4, 1, 8, 9, 5, 14, 12, 0, 7, 10, 13, 6, 3, 2, 11, 15 },
         { 3, 15, 12, 2, 1, 7, 13, 9, 4, 8, 5, 11, 10, 0, 6, 14 },
         { 13, 14, 6, 0, 10, 2, 8, 11, 1, 12, 3, 15, 4, 7, 9, 5 },
@@ -225,4 +220,3 @@ public class HexadecimalSudokuTest {
     testSudoku("trivial3", triv3, null);
   }
 }
-

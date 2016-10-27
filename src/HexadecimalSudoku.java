@@ -9,10 +9,17 @@ import java.util.ArrayList;
  * @missing solveSudoku, to be implemented by the students in ICS 211
  */
 public class HexadecimalSudoku {
-static int rowStart;
-static int rowEnd;
-static int columnStart;
-static int columnEnd;
+  static int rowStart;
+  static int rowEnd;
+  static int columnStart;
+  static int columnEnd;
+
+
+  public HexadecimalSudoku() {
+
+  }
+
+
   /**
    * Find an assignment of values to sudoku cells that makes the sudoku valid.
    * 
@@ -59,31 +66,31 @@ static int columnEnd;
     }
     else {
       ArrayList<Integer> aList = new ArrayList<Integer>();
-      for(int i = 0; i < 16; i ++){
+      for (int i = 0; i < 16; i++) {
         aList.add(i);
       }
-      
-      for(int i = 15; i > -1; i --){
-        if(aList.contains(sudoku[i][column])){
+
+      for (int i = 15; i > -1; i--) {
+        if (aList.contains(sudoku[i][column])) {
           aList.remove(aList.indexOf(sudoku[i][column]));
         }
-        if(aList.contains(sudoku[row][i])){
+        if (aList.contains(sudoku[row][i])) {
           aList.remove(aList.indexOf(sudoku[row][i]));
         }
       }
-      
-      rowStart = (row/4)*4;
-      rowEnd = rowStart +4;
-      columnStart = (column/4)*4;
+
+      rowStart = (row / 4) * 4;
+      rowEnd = rowStart + 4;
+      columnStart = (column / 4) * 4;
       columnEnd = columnStart + 4;
-      
-      if(aList.size() > 0){
-      for(Integer i = rowStart; i < rowEnd; i ++){
-        for(Integer j = columnStart; j < columnEnd; j ++)
-        if(aList.contains(sudoku[i][j])){
-          aList.remove(aList.indexOf(sudoku[i][j]));
+
+      if (aList.size() > 0) {
+        for (Integer i = rowStart; i < rowEnd; i++) {
+          for (Integer j = columnStart; j < columnEnd; j++)
+            if (aList.contains(sudoku[i][j])) {
+              aList.remove(aList.indexOf(sudoku[i][j]));
+            }
         }
-      }
       }
       return aList;
     }
