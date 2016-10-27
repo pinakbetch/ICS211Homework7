@@ -9,7 +9,10 @@ import java.util.ArrayList;
  * @missing solveSudoku, to be implemented by the students in ICS 211
  */
 public class HexadecimalSudoku {
-
+static int rowStart;
+static int rowEnd;
+static int columnStart;
+static int columnEnd;
   /**
    * Find an assignment of values to sudoku cells that makes the sudoku valid.
    * 
@@ -69,10 +72,10 @@ public class HexadecimalSudoku {
         }
       }
       
-      int rowStart = (row/4)*4;
-      int rowEnd = rowStart +4;
-      int columnStart = (column/4)*4;
-      int columnEnd = columnStart + 4;
+      rowStart = (row/4)*4;
+      rowEnd = rowStart +4;
+      columnStart = (column/4)*4;
+      columnEnd = columnStart + 4;
       
       if(aList.size() > 0){
       for(Integer i = rowStart; i < rowEnd; i ++){
