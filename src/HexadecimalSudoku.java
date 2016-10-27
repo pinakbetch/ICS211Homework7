@@ -71,20 +71,25 @@ public class HexadecimalSudoku {
       ArrayList<Integer> illegals = new ArrayList<Integer>();
       
       for(int i = 0; i < 16; i ++){
+        aList.add(i);
         illegals.add(sudoku[i][column]);
         illegals.add(sudoku[row][i]);
       }
+      
       int boxRow = (row/4)*4;
       int boxRowStop = (row/4)*4 +4;
       int boxColumn = (column/4)*4;
       int boxColumnStop = (column/4)*4 +4;
       for(int i = boxRow; i < boxRowStop; i ++){
         for(int j = boxColumn; j < boxColumnStop; j++){
-
-       // TODO create a more effecient way of doing this
+          illegals.add(sudoku[i][j]);
         }
       }
-      
+      for(int i = 15; i < -1; i --){
+        if(illegals.contains(i)){
+          aList.remove(i);
+        }
+      }
       return aList;
     }
   }
