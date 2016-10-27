@@ -20,34 +20,22 @@ public class HexadecimalSudoku {
   public static boolean solveSudoku(int[][] sudoku) {
     toString(sudoku, false);
     int[] emptySpot = new int[2];
-    int[][] tempSudoku;
     ArrayList<Integer> possibilities;
 
     emptySpot = findEmpty(sudoku);
-    //
-    //
-    // System.out.println(emptySpot[0] + " " + emptySpot[1]);
-    //
-    //
-    if (emptySpot[0] == -1 && emptySpot[1] == -1) {
+    if (emptySpot[0] == -1 || emptySpot[1] == -1) {
       return checkSudoku(sudoku, false);
     }
 
     possibilities = legalValues(sudoku, emptySpot[0], emptySpot[1]);
 
     for (int i = 0; i < possibilities.size(); i++) {
-      tempSudoku = sudoku;
-      tempSudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
-      //
-      //
-      // System.out.println(tempSudoku[emptySpot[0]][emptySpot[1]]);
-      //
-      //
-      if (solveSudoku(tempSudoku)) {
+      sudoku[emptySpot[0]][emptySpot[1]] = possibilities.get(i);
+      if (solveSudoku(sudoku)) {
         return true;
       }
       else {
-        tempSudoku[emptySpot[0]][emptySpot[1]] = -1;
+        sudoku[emptySpot[0]][emptySpot[1]] = -1;
       }
     }
     return false;
@@ -63,22 +51,38 @@ public class HexadecimalSudoku {
    * @return an ArrayList of the valid values.
    */
   private static ArrayList<Integer> legalValues(int[][] sudoku, int row, int column) {
-
     if (sudoku[row][column] != -1) {
       return null;
     }
     else {
-
-      ArrayList<Integer> legals = new ArrayList<Integer>();
-
-      for (int i = 0; i < 16; i++) {
-        sudoku[row][column] = i;
-        if (checkSudoku(sudoku, false)) {
-          legals.add(i);
+      ArrayList<Integer> aList = new ArrayList<Integer>();
+      for(int i = 0; i < 16; i ++){
+        aList.add(i);
+      }
+      
+      for(int i = 15; i > -1; i --){
+        if(aList.contains(sudoku[i][column])){
+          aList.remove(aList.indexOf(sudoku[i][column]));
+        }
+        if(aList.contains(sudoku[row][i])){
+          aList.remove(aList.indexOf(sudoku[row][i]));
         }
       }
-      sudoku[row][column] = -1;
-      return legals;
+      
+      int rowStart = (row/4)*4;
+      int rowEnd = rowStart +4;
+      int columnStart = (column/4)*4;
+      int columnEnd = columnStart + 4;
+      
+      if(aList.size() > 0){
+      for(Integer i = rowStart; i < rowEnd; i ++){
+        for(Integer j = columnStart; j < columnEnd; j ++)
+        if(aList.contains(sudoku[i][j])){
+          aList.remove(aList.indexOf(sudoku[i][j]));
+        }
+      }
+      }
+      return aList;
     }
   }
 
