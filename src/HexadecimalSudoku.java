@@ -28,7 +28,6 @@ public class HexadecimalSudoku {
    * solution was found, restores the sudoku to its original value
    */
   public static boolean solveSudoku(int[][] sudoku) {
-    toString(sudoku, false);
     int[] emptySpot = new int[2];
     ArrayList<Integer> possibilities;
 
